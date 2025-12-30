@@ -22,7 +22,7 @@ function dispalyCategories(categories){
     //create Element
     const categoryDiv=document.createElement("div");
     categoryDiv.innerHTML=`
-    <button onclick="loadCategoryVideos(${cat.category_id})" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>   
+    <button id="btn-${cat.category_id}" onclick="loadCategoryVideos(${cat.category_id})" class="btn btn-sm hover:bg-[#FF1F3D] hover:text-white">${cat.category}</button>   
     `;
     //append the element
     categoryContainer.append(categoryDiv);
@@ -47,7 +47,17 @@ const displayVideos=(videos)=>{
     //console.log(videos);
     const videoContainer = document.getElementById('video-container');
     //when press another button then videoContainer will be empty
-    videoContainer.innerHTML=""
+    videoContainer.innerHTML="";
+
+    if(videos.length===0){
+      videoContainer.innerHTML=`
+      <div class="col-span-full text-center flex flex-col items-center py-20 ">
+      <img class="w-[120px]" src="assets/Icon.png" alt="">
+      <h2 class="text-2xl font-semibold p-5">Opps Sorry, There is no content here</h2>
+      </div>`
+      return;
+    }
+    
     videos.forEach(video=>{
         //console.log(video)
         const videoCard=document.createElement("div");
@@ -91,8 +101,16 @@ const loadCategoryVideos=(id)=>{
       console.log(url)
       fetch(url)
       .then(res=>res.json())
-      .then(data=>displayVideos(data.category))
+      .then(data=>{
+        const clickedButton =document.getElementById(`btn-${id}`);
+        clickedButton.classList.add("active");
+        
+        console.log(clickedButton);
+        displayVideos(data.category)
+      })
 };
+
+
 
 
 
