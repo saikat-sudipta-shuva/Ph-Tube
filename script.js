@@ -1,5 +1,14 @@
 console.log("script.js added")
+function removeActiveClass(){
+    const activeButtons=document.getElementsByClassName("active");
+    console.log(activeButtons);
+    for(let btn of activeButtons){
+      btn.classList.remove("active");
+    }
 
+}
+
+removeActiveClass();
 function loadCategories(){
     console.log("categoy is loading")
     //fetch data
@@ -38,6 +47,8 @@ function loadVideos(){
     .then(res=>res.json())
     .then(data=>{
        // console.log(data.videos);
+       removeActiveClass();
+       document.getElementById("btn-all").classList.add("active");
        displayVideos(data.videos);
       
     })
@@ -102,6 +113,8 @@ const loadCategoryVideos=(id)=>{
       fetch(url)
       .then(res=>res.json())
       .then(data=>{
+        removeActiveClass();
+        //no active class
         const clickedButton =document.getElementById(`btn-${id}`);
         clickedButton.classList.add("active");
         
@@ -116,4 +129,3 @@ const loadCategoryVideos=(id)=>{
 
 loadCategories();
 // loadVideos();
-
